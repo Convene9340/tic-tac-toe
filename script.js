@@ -63,24 +63,24 @@ function gameBoard(){
         // 1st dia [0,0] [1,1] [2,2]
         // 2nd dia [2,0] [1,1] [0,2]
 
-        // for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-            
-        //     const row = board[row];
-            
-        //         board.forEach(cell => {
-        //             initialValue = cell
-        //         });
 
-        // }
-
-
-        if (board[0][0] && board[0][1] && board[0][2]) {
+        if (board[0][0] === board[0][1] && board[0][1] === board[0][2]) {
             return true
-        } else if(board[1][0] && board[1][1] && board[1][2]) {
+        } else if(board[1][0] === board[1][1] && board[1][1] === board[1][2]) {
+            return true
+        } else if(board[2][0] === board[2][1] && board[2][1] === board[2][2]) {
+            return true
+        } else if(board[0][0] === board[1][0] && board[1][0] === board[2][0]) {
+            return true
+        } else if(board[0][1] === board[1][1] && board[1][1] === board[2][1]) {
+            return true
+        } else if(board[0][2] === board[1][2] && board[1][2] === board[2][2]) {
+            return true
+        } else if(board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+            return true
+        } else if(board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
             return true
         }
-
-        //TODO: Finish all patterns
 
     }
 
@@ -104,4 +104,34 @@ function player(playerNumber){
     }
 
     return {piece, move}
+}
+
+function game() {
+    
+    const newGame = gameBoard()
+    const player1 = player(1)
+    const player2 = player(2)
+    let myactivePlayer
+    const start = () => {
+        //gameboard reset
+        //score reset
+        myactivePlayer = player1
+
+        return myactivePlayer
+    }
+
+    const switchTurn = () => {
+        if(myactivePlayer === player1) {
+            myactivePlayer = player2
+        } else {
+            myactivePlayer = player1
+        } 
+
+        return myactivePlayer
+    }
+
+
+    const getActivePlayer = () => {return myactivePlayer}
+
+    return {start, switchTurn, getActivePlayer, player1, player2}
 }
