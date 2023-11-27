@@ -108,7 +108,7 @@ function player(playerNumber){
 
 function game() {
     
-    const newGame = gameBoard()
+    const board = gameBoard()
     const player1 = player(1)
     const player2 = player(2)
     let myactivePlayer
@@ -130,8 +130,25 @@ function game() {
         return myactivePlayer
     }
 
+    const updateBoard = (coordinate, piece) => {
+
+    //player click board
+    //get coordinate
+    //send coordinate and piece to board
+        //check valid move
+
+        board.update(coordinate, piece)
+
+        //switchturn
+
+        return board
+    }
 
     const getActivePlayer = () => {return myactivePlayer}
 
-    return {start, switchTurn, getActivePlayer, player1, player2}
+
+
+    
+
+    return {start, switchTurn, getActivePlayer, updateBoard}
 }
