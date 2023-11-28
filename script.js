@@ -64,22 +64,24 @@ function gameBoard(){
         // 2nd dia [2,0] [1,1] [0,2]
 
 
-        if (board[0][0] === board[0][1] && board[0][1] === board[0][2]) {
+        if (board[0][0] !== 0 && board[0][0] === board[0][1] && board[0][1] === board[0][2]) {
             return true
-        } else if(board[1][0] === board[1][1] && board[1][1] === board[1][2]) {
+        } else if(board[1][0] !== 0 && board[1][0] === board[1][1] && board[1][1] === board[1][2]) {
             return true
-        } else if(board[2][0] === board[2][1] && board[2][1] === board[2][2]) {
+        } else if(board[2][0] !== 0 && board[2][0] === board[2][1] && board[2][1] === board[2][2]) {
             return true
-        } else if(board[0][0] === board[1][0] && board[1][0] === board[2][0]) {
+        } else if(board[0][0] !== 0 && board[0][0] === board[1][0] && board[1][0] === board[2][0]) {
             return true
-        } else if(board[0][1] === board[1][1] && board[1][1] === board[2][1]) {
+        } else if(board[0][1] !== 0 && board[0][1] === board[1][1] && board[1][1] === board[2][1]) {
             return true
-        } else if(board[0][2] === board[1][2] && board[1][2] === board[2][2]) {
+        } else if(board[0][2] !== 0 && board[0][2] === board[1][2] && board[1][2] === board[2][2]) {
             return true
-        } else if(board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+        } else if(board[0][0] !== 0 && board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
             return true
-        } else if(board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
+        } else if(board[2][0] !== 0 && board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
             return true
+        } else {
+            return false
         }
 
     }
@@ -96,6 +98,8 @@ function gameBoard(){
 
 function player(playerNumber){
 
+    var gameScore = 0
+
     const piece = playerNumber === 1 ? 'x' : 'o'
 
 
@@ -103,7 +107,20 @@ function player(playerNumber){
         return {coordinate, piece}
     }
 
-    return {piece, move}
+    const addScore = () => {
+        gameScore++
+        return gameScore
+    }
+    const resetScore = () => {
+        gameScore = 0
+        return gameScore
+    }
+
+    const getScore = () => {
+        return gameScore
+    }
+
+    return {piece, move, addScore, resetScore, getScore}
 }
 
 function game() {
@@ -112,10 +129,12 @@ function game() {
     const player1 = player(1)
     const player2 = player(2)
     let myactivePlayer
+    let roundWinnner
     const start = () => {
         //gameboard reset
         //score reset
         myactivePlayer = player1
+        roundWinnner = undefined
 
         return myactivePlayer
     }
@@ -137,11 +156,36 @@ function game() {
     //send coordinate and piece to board
         //check valid move
 
-        board.update(coordinate, piece)
 
-        //switchturn
+    var msg
 
-        return board
+        if (board.validMove(coordinate)) {
+            board.update(coordinate, piece)
+
+            console.log(board.checkWin())
+
+            if (board.checkWin()){
+                roundWinnner = myactivePlayer
+                roundWinnner.addScore()
+
+                msg = `${roundWinnner.piece}  won!`
+
+            } else {
+                switchTurn()
+                msg = 'Next turn'
+            }
+
+        } else {
+            //move not valid
+            msg = 'Invalid move'
+
+        }
+        
+        
+        
+        
+
+        return {board, msg}
     }
 
     const getActivePlayer = () => {return myactivePlayer}
@@ -150,5 +194,15 @@ function game() {
 
     
 
-    return {start, switchTurn, getActivePlayer, updateBoard}
+    return {start, switchTurn, getActivePlayer, updateBoard, player1, player2}
 }
+
+const newGame = game()
+
+const buttonStart = document.querySelector('#start')
+buttonStart.addEventListener('click', e => {
+    
+    newGame.start()
+
+    console.log(newGame)
+})

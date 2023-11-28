@@ -1,0 +1,13 @@
+.board {
+    
+}
+.row {
+    border: black solid 1px;
+    display: flex;
+}
+.cell {
+    border: green solid 1px;
+    min-height: 30px;
+    min-width: 30px;
+    flex: 1;
+}

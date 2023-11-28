@@ -3,10 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <title>Tic Tac Toe</title>
 </head>
 <body>
-    
+    <div class="status">
+        <div class="players">
+            <div id="player1">
+                <div>PLAYER 1 SCORE</div>
+                <div>PLAYER 1 PIECE</div>
+            </div>
+            <div id="player2">
+                <div>PLAYER 2 SCORE</div>
+                <div>PLAYER 2 PIECE</div>
+            </div>
+        </div>
+    </div>
+    <div class="buttons">
+        <button id="start">START</button>
+    </div>
+    <div class="board">
+        <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+    </div>
 </body>
 </html>
