@@ -168,8 +168,12 @@ function game() {
                 roundWinnner = myactivePlayer
                 roundWinnner.addScore()
 
-                msg = `${roundWinnner.piece}  won!`
-
+                msg = `${roundWinnner.piece} won!`
+                /* TODO: 
+                add score to winner
+                reset board (maybe button) but prevent new input
+                update counters display
+                */
             } else {
                 switchTurn()
                 msg = 'Next turn'
@@ -206,3 +210,26 @@ buttonStart.addEventListener('click', e => {
 
     console.log(newGame)
 })
+
+const cells = document.querySelectorAll('.cell')
+
+cells.forEach(cell => {
+    cell.addEventListener('click', e => {
+        const cellAddress = cell.id.split('')
+        const newMove = newGame.getActivePlayer().move(cellAddress)
+        const updatedBoard = newGame.updateBoard(newMove.coordinate, newMove.piece)
+        console.log(cellAddress)
+        console.log(updatedBoard)
+        console.log(updatedBoard.msg.substring(2))
+
+        if (updatedBoard.msg === "Next turn") {
+            cell.textContent = newMove.piece
+        } else if (updatedBoard.msg === "Invalid move") {
+            //highlight cell in red
+        } else if (updatedBoard.msg.substring(2) === 'won!'){
+            cell.textContent = newMove.piece
+            //update score
+        }
+    })
+});
+
