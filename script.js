@@ -42,14 +42,11 @@ function gameBoard(){
         
         const [row, column] = coordinate
         
-        if(board[row][column] === 0){
+        if(board[row][column] === 0 && checkWin() === false){
+            
+            `checkwin before board update {checkWin()}`
             board[row][column]=piece
         }
-        
-        //check if there is a winner
-        //8 combinations
-
-        
         
     }
 
@@ -92,7 +89,19 @@ function gameBoard(){
         return board[row][column] === 0 ? true : false
     }
 
-    return {board, update, validMove, checkWin}
+    const getPiece = (coordinate) => {
+        const [row, column] = coordinate
+        boardValue = board[row][column]
+        
+        if (boardValue === 0) {
+            return
+        } else {
+            return boardValue
+        }
+
+    }
+
+    return {board, update, validMove, checkWin, getPiece}
 }
 
 
@@ -131,7 +140,7 @@ function game() {
     let myactivePlayer
     let roundWinnner
     const start = () => {
-        //gameboard reset
+        //TODO: gameboard reset
         //score reset
         myactivePlayer = player1
         roundWinnner = undefined
@@ -151,18 +160,11 @@ function game() {
 
     const updateBoard = (coordinate, piece) => {
 
-    //player click board
-    //get coordinate
-    //send coordinate and piece to board
-        //check valid move
-
 
     var msg
 
         if (board.validMove(coordinate)) {
             board.update(coordinate, piece)
-
-            console.log(board.checkWin())
 
             if (board.checkWin()){
                 roundWinnner = myactivePlayer
@@ -180,23 +182,14 @@ function game() {
             }
 
         } else {
-            //move not valid
             msg = 'Invalid move'
 
         }
         
-        
-        
-        
-
         return {board, msg}
     }
 
     const getActivePlayer = () => {return myactivePlayer}
-
-
-
-    
 
     return {start, switchTurn, getActivePlayer, updateBoard, player1, player2}
 }
@@ -215,20 +208,19 @@ const cells = document.querySelectorAll('.cell')
 
 cells.forEach(cell => {
     cell.addEventListener('click', e => {
+        
         const cellAddress = cell.id.split('')
         const newMove = newGame.getActivePlayer().move(cellAddress)
         const updatedBoard = newGame.updateBoard(newMove.coordinate, newMove.piece)
-        console.log(cellAddress)
-        console.log(updatedBoard)
-        console.log(updatedBoard.msg.substring(2))
 
         if (updatedBoard.msg === "Next turn") {
             cell.textContent = newMove.piece
         } else if (updatedBoard.msg === "Invalid move") {
-            //highlight cell in red
+            //TODO: highlight cell in red
         } else if (updatedBoard.msg.substring(2) === 'won!'){
-            cell.textContent = newMove.piece
-            //update score
+            cell.textContent = updatedBoard.board.getPiece(cellAddress)
+
+            //TODO: update score
         }
     })
 });
