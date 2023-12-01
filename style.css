@@ -1,6 +1,4 @@
-.board {
-    
-}
+
 .row {
     border: black solid 1px;
     display: flex;
@@ -9,5 +7,21 @@
     border: green solid 1px;
     min-height: 30px;
     min-width: 30px;
+    flex: 1;
+}
+
+#player1 {
+    display: flex;
+}
+
+#player1 > div {
+    flex: 1;
+}
+
+#player2 {
+    display: flex;
+}
+
+#player2 > div {
     flex: 1;
 }

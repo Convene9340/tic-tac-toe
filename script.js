@@ -163,18 +163,16 @@ function game() {
 
     var msg
 
-        if (board.validMove(coordinate)) {
+        if (board.validMove(coordinate) && board.checkWin() === false) {
             board.update(coordinate, piece)
 
-            if (board.checkWin()){
+            if (board.checkWin() === true){
                 roundWinnner = myactivePlayer
                 roundWinnner.addScore()
 
                 msg = `${roundWinnner.piece} won!`
                 /* TODO: 
-                add score to winner
                 reset board (maybe button) but prevent new input
-                update counters display
                 */
             } else {
                 switchTurn()
@@ -200,11 +198,19 @@ const buttonStart = document.querySelector('#start')
 buttonStart.addEventListener('click', e => {
     
     newGame.start()
+    player1piece.textContent = newGame.player1.piece
+    player2piece.textContent = newGame.player2.piece
 
     console.log(newGame)
 })
 
+const player1score = document.querySelector('#player1score')
+const player2score = document.querySelector('#player2score')
+const player1piece = document.querySelector('#player1piece')
+const player2piece = document.querySelector('#player2piece')
+
 const cells = document.querySelectorAll('.cell')
+
 
 cells.forEach(cell => {
     cell.addEventListener('click', e => {
@@ -220,7 +226,9 @@ cells.forEach(cell => {
         } else if (updatedBoard.msg.substring(2) === 'won!'){
             cell.textContent = updatedBoard.board.getPiece(cellAddress)
 
-            //TODO: update score
+            player1score.textContent = newGame.player1.getScore()
+            player2score.textContent = newGame.player2.getScore()
+
         }
     })
 });
